@@ -195,6 +195,37 @@
 
     </RelativeLayout>  <!-- End of manageConferencePanel -->
 
+    <!-- On screen buttons -->
+    <LinearLayout android:id="@+id/callButtonsLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dip"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:gravity="center_horizontal|bottom" >
+
+        <Button android:id="@+id/answerCallButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/answer_call" />
+
+        <Button android:id="@+id/dialpadButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:text="@string/dialpad" />
+
+        <Button android:id="@+id/endCallButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/reject_call" />
+
+    </LinearLayout>
+
     <!-- The sliding drawer control containing the DTMF dialpad.
          Note this isn't a child of mainFrame, which ensures that it'll be
          able to use the full width of the screen.  (And a SlidingDrawer

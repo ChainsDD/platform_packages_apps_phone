@@ -216,6 +216,12 @@ public class InCallScreen extends Activity
 
     private EditText mWildPromptText;
 
+    // On screen call buttons
+    private ViewGroup mCallButtonsLayout;
+    private Button mAnswerCallButton;
+    private Button mDialpadButton;
+    private Button mEndCallButton;
+
     // "Touch lock" overlay graphic
     private View mTouchLockOverlay;  // The overlay over the whole screen
     private View mTouchLockIcon;  // The "lock" icon in the middle of the screen
@@ -614,6 +620,7 @@ public class InCallScreen extends Activity
         }
 
         Profiler.profileViewCreate(getWindow(), InCallScreen.class.getName());
+
         if (VDBG) log("onResume() done.");
     }
 
@@ -950,6 +957,19 @@ public class InCallScreen extends Activity
 
         // Menu Button hint
         mMenuButtonHint = (TextView) findViewById(R.id.menuButtonHint);
+
+        // On screen call buttons
+        mCallButtonsLayout = (ViewGroup) findViewById(R.id.callButtonsLayout);
+        mAnswerCallButton = (Button) findViewById(R.id.answerCallButton);
+        mAnswerCallButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View target) {
+                handleCallKey();
+            }
+        });
+        mDialpadButton = (Button) findViewById(R.id.dialpadButton);
+        mDialpadButton.setOnClickListener(this);
+        mEndCallButton = (Button) findViewById(R.id.endCallButton);
+        mEndCallButton.setOnClickListener(this);
 
         // Make any final updates to our View hierarchy that depend on the
         // current configuration.
@@ -1815,6 +1835,7 @@ public class InCallScreen extends Activity
         mCallCard.updateState(mPhone);
         updateDialpadVisibility();
         updateMenuButtonHint();
+        updateOnScreenCallButtons();
     }
 
     /**
@@ -2223,6 +2244,7 @@ public class InCallScreen extends Activity
                 break;
 
             case R.id.menuShowDialpad:
+            case R.id.dialpadButton:
                 if (VDBG) log("onClick: Show/hide dialpad...");
                 if (mDialer.isOpened()) {
                     mDialer.closeDialer(true);  // do the "closing" animation
@@ -2293,6 +2315,7 @@ public class InCallScreen extends Activity
                 break;
 
             case R.id.menuEndCall:
+            case R.id.endCallButton:
                 if (VDBG) log("onClick: EndCall...");
                 PhoneUtils.hangup(mPhone);
                 break;
@@ -2460,6 +2483,16 @@ public class InCallScreen extends Activity
         // menu is semitransparent so you can still see the hint
         // underneath, and the hint is *just* visible enough to be
         // distracting.)
+    }
+    
+    /**
+     * Updates what on-screen buttons are visible based on the
+     * current state of the phone.
+     */
+    private void updateOnScreenCallButtons() {
+        if (VDBG) log("updateOnScreenCallButtons()...");
+        
+        // TODO: See above
     }
 
     /**
@@ -3122,10 +3155,13 @@ public class InCallScreen extends Activity
         //
         // This handle should be visible only if it's OK to actually open
         // the dialpad.
+        // But since we're using a button now instead of the handle, change
+        // the visibility of that button.
         //
         if (mDialerDrawer != null) {
             int visibility = okToShowDialpad() ? View.VISIBLE : View.GONE;
-            mDialerDrawer.setVisibility(visibility);
+//            mDialerDrawer.setVisibility(visibility);
+            mDialpadButton.setVisibility(visibility);
         }
     }
 

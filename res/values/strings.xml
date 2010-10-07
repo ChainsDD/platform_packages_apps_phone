@@ -636,4 +636,12 @@
     <!-- Import a single contact entry from contacts to the SIM card -->
     <string name="importToFDNfromContacts">Import from contacts</string>
 
+    <!-- On screen buttons -->
+    <string name="answer_call">Answer</string>
+    <string name="reject_call">Reject</string>
+    <string name="end_call">End</string>
+    <string name="unhold_call">Unhold</string>
+    <string name="swap_calls">Swap calls</string>
+    <string name="dialpad">Dialpad</string>
+
 </resources>
